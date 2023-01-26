@@ -1,1 +1,2 @@
-print(1%3)
+L=[1,2,3]
+print(sum(L))
