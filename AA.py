@@ -1,32 +1,14 @@
-def Check(m,L):
-    s = 0
-    cnt=1
-    for i in range(len(L)):
-        if s + L[i] <= m:
-            s+=L[i]
-        else:
-            cnt+=1
-            s = L[i]
-    # print("cnt = {}".format(cnt))
-    return cnt
-
-
-n , m = map(int,input().split())
+n = int(input())
 L = list(map(int,input().split()))
-lt = 1
-rt = sum(L)
-res = 0
+T = [0] * n
 
-while lt<=rt:
-    mid = (lt+rt)//2
-
-    if Check(mid,L) <= m:
-        res = mid
-        # print("res = {}".format(res))
-        rt = mid -1
-    else:
-        lt = mid + 1
-print(res)
-
-
-    
+for i in range(n):
+    for j in range(n):
+        if L[i]==0 and T[j] == 0:
+            T[j] = i+1
+            break
+        elif T[j] == 0:
+            L[i]-=1
+for i in T:
+    print(i,end=" ")
+        
