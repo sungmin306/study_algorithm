@@ -1,14 +1,19 @@
-n = int(input())
-L = list(map(int,input().split()))
-T = [0] * n
+s = input()
+L = list(map(str, s))
+S=[] # Stack
+sum = 0
 
-for i in range(n):
-    for j in range(n):
-        if L[i]==0 and T[j] == 0:
-            T[j] = i+1
-            break
-        elif T[j] == 0:
-            L[i]-=1
-for i in T:
-    print(i,end=" ")
-        
+for i in range(len(L)):
+    a = L[i]
+    if a == "(":
+        S.append(a)
+    elif a == ")":
+        if L[i-1] == "(":
+            S.pop()
+            sum+=len(S)
+        elif L[i-1] == ")":
+            S.pop()
+            sum+=1
+    # print(sum)
+
+print(sum)

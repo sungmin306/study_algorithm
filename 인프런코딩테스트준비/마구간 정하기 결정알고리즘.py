@@ -30,26 +30,6 @@ while lt<=rt:
 print(res)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-
 """
 선생님 코드
 def Count(len):
