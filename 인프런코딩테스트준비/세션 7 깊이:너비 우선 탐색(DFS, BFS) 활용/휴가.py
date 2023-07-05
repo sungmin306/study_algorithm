@@ -40,14 +40,17 @@ def DFS(L,sum):
     if L == n + 1:
         if sum > res:
             res = sum
+            L2.append(res)
     else:
-        if L + T[L] <= n + 1:
+        if L + T[L] <= n + 1: # index 에러 해결
+            L2.append(L)
             DFS(L+T[L], sum + P[L]) # 해당하는 상담 선택했을 때 -> 걸리는 날짜시간으로 감
         DFS(L+1, sum) # 해당하는 상담을 선택 안했을 때 -> 다음 상담을 받을지 안받을지 결정
 
 n = int(input())
 T=list()
 P=list()
+L2=list()
 for i in range(n):
     a, b =map(int,input().split())
     T.append(a)
@@ -56,5 +59,6 @@ res= - 2147000000
 T.insert(0,0) # list 앞에 0 넣는행위 원래 있던 값들을 오른쪽으로 한칸씩 미는 효과 발생
 P.insert(0,0)
 DFS(1,0)
+print(L2)
 print(res)
 

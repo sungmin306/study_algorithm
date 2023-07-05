@@ -1,5 +1,5 @@
 import sys
-"""
+
 #### 내 코드
 def DFS(h):
     L2 = []
@@ -40,7 +40,7 @@ res = [0] * n
 ch = [0] * (n+1)
 L = []
 DFS(0)
-"""
+
 # 선생님 코드
 # 이항계수 조합으로 증명했는데 조합 규칙을 못찾았다 -> 힘들어서 생각을 제대로 못했는데 선생님 설명보니까 이항게수 조합규칙으로 문제풀었다..
 
@@ -85,10 +85,10 @@ a=list(range(1,n+1))
 for tmp in it.permutations(a):
     sum = 0
     for L, x in enumerate(tmp):
-    if sum == f:
-        for x in tmp:
-            print(x, end=' ')
-        break # 맨 위 for문을 break
+        if sum == f:
+            for x in tmp:
+                print(x, end=' ')
+            break # 맨 위 for문을 break
         
 
 print(cnt)
