@@ -1,4 +1,5 @@
 from collections import deque
+import copy
 n = int(input())
 L = [list(map(int,input().split())) for _ in range(n)]
 dx = [-1,0,1,0] # 좌우
@@ -6,17 +7,18 @@ dy = [0,1,0,-1] # 상하
 Q=deque()
 #max_value = max(L) # 이렇게하면 리스트가 나옴 리스트0번쨰 index만앞에서만 비교
 max_value = max(map(max, L))
-print(max_value)
+#print(max_value)
 #print(max_value)
 #min_value = min(L)
 min_value = min(map(min,L))
-print(min_value)
+#print(min_value)
 res = 0
 for h in range(min_value,max_value +1): # 지역의 제일 낮은 높이부터 제일 높은 높이만 비온다고 확인
-    ch = [row[:] for row in L] # L리스트 복사하는 법 
+    #ch = [row[:] for row in L] # L리스트 복사하는 법 
+    ch = copy.deepcopy(L)
     # ch = []
     # ch = L # 이렇게하면 L도 변경됨 -> 이유는 잘 모르곘네..
-    print(ch) 
+    #print(ch) 
     cnt = 0
     for i in range(n):
         for j in range(n):
@@ -41,7 +43,7 @@ import sys
 sys.stdin=open("input.txt", "r")
 dx=[-1, 0, 1, 0]
 dy=[0, 1, 0, -1]
-sys.setrecursionlimit(10**6)
+sys.setrecursionlimit(10**6) # 자동으로 재귀 종료 얘도 알아두자
 def DFS(x, y, h):
     ch[x][y]=1
     for i in range(4):
