@@ -4,8 +4,7 @@ for i in range(n+1):
     DP[i][i] = 0
 for _ in range(m):
     i , j , d = map(int,input().split())
-    DP[i][j] = d
-    
+    DP[i][j] = d    
 for k in range(1,n+1):
     for i in range(1,n+1):
         for j in range(1,n+1):
