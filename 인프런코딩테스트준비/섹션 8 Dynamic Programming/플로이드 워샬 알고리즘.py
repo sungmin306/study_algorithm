@@ -1,4 +1,4 @@
-n = int(input())
+n , m = map(int,input().split())
 DP = [[10000] * (n+1) for _ in range(n+1)]
 for i in range(n+1):
     DP[i][i] = 0
