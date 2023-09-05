@@ -1,19 +1,33 @@
-def solution(food_times, k):
-    answer = 0
-    for i in range(k):
-        answer += 1
-        # answer 가 음식의 종류(len(food_times)) 보다 크게되면 음식의 순서를 다시 0으로 만들기
-        if answer == len(food_times):
-            answer = 0
-        # 먹어야할 음식의 남은 시간이 0보다 클경우 음식 먹기
-        if food_times[answer] > 0:
-            food_times[answer] -= 1
-        # 먹어야할 음식이 0일 경우 다음 음식이 0이 아닐때까지 패스한 후에 음식 먹기
-        else:
-            while food_times[answer] == 0:
-                answer += 1
-            food_times[answer] -= 1
-    answer += 1
-    if max(food_times) == 0:
-        answer = 0
-    return answer
+import heapq
+
+def solution(food_times,k):
+    if sum(food_times) <= k: # 결국 전체가 다 -1이됨
+        return -1 
+    
+    q = []
+    for i in range(len(food_times)):
+        heapq.heappush(q,(food_times[i], i + 1))
+    
+    sum_value = 0 # 먹기 위 해 사용한 시간
+    previous = 0 # 직전에 다 먹은 음식 시간
+
+    length = len(food_times) # 남은 음식의 개수
+
+    # sum_value + (현재의 음식시간 - 이전 음식 시간) * 현재 음식 개수와 k 비교
+    while sum_value + ((q[0][0] - previous) * length) <= k:
+        now = heapq.heappop(q)[0]
+        sum_value += (now - previous) * length
+        length -= 1 # 다 먹은 음식 제외
+        previous = now # 이전 음식 시간 재설정
+
+    # 남은 음식중에서 몇번째 음식인지 확인하여 출력
+    result = sorted(q,key = lambda x : x[1]) # 음식의 번호 기준으로 정렬
+    return result[(k-sum_value) % length[1]]
+
+
+"""
+입력예시
+food_times [3,1,2]
+k 5
+result 1
+"""
