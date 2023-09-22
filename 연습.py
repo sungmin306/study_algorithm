@@ -1,39 +1,32 @@
-n , m = map(int,input().split())
-L = [list(map(int,input().split())) for _ in range(n)]
-C = []
-result = 0
+global r 
+def dfs(c,x,l):
+    global r
+    if c == x:
+        print(c)
+        r = 1
+        return
+    if len(x) < l:
+        return
+    else:
+        push_s = "b" * c.count('a')
+        dfs(push_s + c + push_s, x, len(push_s+ c + push_s))
+        dfs(c+'a',x,len(c+'a'))
+        dfs('a'+c,x,len('a'+c))
 
-tmp = L[0][0]
-
-for i in range(0,n):
-    cnt = 1
-    for j in range(1,n):
-        if tmp == L[i][j]:
-            cnt += 1
+def solution(a):
+    global r
+    answer = []
+    for x in a:
+        compare_string = 'a'
+        r = 0
+        length = len(x)
+        dfs(compare_string, x, len(compare_string))
+        print(r)
+        if r == 1:
+            answer.append(True)
         else:
-            C.append(cnt)
-            cnt = 1
-        tmp = L[i][j]
-    
-    if cnt >= m:
-        result += 1
-C=[]
-tmp = L[0][0]
-for i in range(n):
-    cnt = 1
-    for j in range(1,n):
-        if tmp == L[j][i]:
-            cnt += 1
-        else:
-            C.append(cnt)
-            cnt = 1
-        tmp = L[i][j]
-    if cnt >= m:
-        result += 1
-print(result)
+            answer.append(False)
+    return answer
 
-
-
-
-
-
+a = ["abab","bbaa","bababa","bbbabababbbaa","bbbbabbbb"]
+print(solution(a))
