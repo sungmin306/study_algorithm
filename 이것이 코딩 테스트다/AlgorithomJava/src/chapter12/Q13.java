@@ -26,10 +26,10 @@ class Combination {
             result.add(temp);
             return;
         }
-        if (target == n) return;
+        if (target == n) return; // target이 n 보다 넘어가는 것을 방지
         now[index] = target;
-        combination(arr,depth + 1, index + 1, target + 1);
-        combination(arr,depth,index,target + 1);
+        combination(arr,depth + 1, index + 1, target + 1); // 조합을 뽑는다
+        combination(arr,depth,index,target + 1); // 조합을 뽑지 않는다.
     }
 }
 
@@ -71,7 +71,6 @@ public class Q13 {
         return result;
     }
 
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n;
@@ -98,12 +97,5 @@ public class Q13 {
             result = Math.min(result, getSum(chickenList.get(i)));
         }
         System.out.println(result);
-
-
-
-
-
-
-
     }
 }
