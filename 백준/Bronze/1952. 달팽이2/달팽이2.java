@@ -1,3 +1,4 @@
+
 import java.io.*;
 import java.util.*;
 
@@ -24,8 +25,7 @@ public class Main {
         map = new int[n][m];
         int cnt = 0;
         map[x][y] = 1;
-        int i = 1;
-        while(i < n * m) {
+        for (int i = 2; i <= n * m; i++) {
             nx = x + dx[dirNum];
             ny = y + dy[dirNum];
 
@@ -38,7 +38,6 @@ public class Main {
             y = y + dy[dirNum];
 
             map[x][y] = 1;
-            i++;
         }
         System.out.println(cnt);
     }
