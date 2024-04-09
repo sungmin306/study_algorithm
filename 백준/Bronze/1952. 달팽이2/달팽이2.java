@@ -1,47 +1,45 @@
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    public static final int MAX_NUM = 100;
-    public static final int DIR_NUM = 4;
 
     public static int n, m;
-    public static int[][] arr = new int[MAX_NUM][MAX_NUM];
-    
-    public static int[] dx = new int[]{0, 1,  0, -1};
-    public static int[] dy = new int[]{1, 0, -1,  0};
+    public static int x = 0, y = 0;
+    public static int nx, ny;
+    public static int[][] map;
+    public static int[] dx = {0,1,0,-1};
+    public static int[] dy = {1,0,-1,0};
 
-    public static int currX = 0, currY = 0; 
-    public static int dir = 0;              
+    public static int dirNum = 0;
 
     public static boolean inRange(int x, int y) {
         return 0 <= x && x < n && 0 <= y && y < m;
     }
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        n = sc.nextInt();
-        m = sc.nextInt();
-
-        arr[currX][currY] = 1;
-        
+    public static void main(String[] args)throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        map = new int[n][m];
         int cnt = 0;
+        map[x][y] = 1;
+        int i = 1;
+        while(i < n * m) {
+            nx = x + dx[dirNum];
+            ny = y + dy[dirNum];
 
-        for(int i = 2; i <= n * m; i++) {
-
-            int nextX = currX + dx[dir], nextY = currY + dy[dir];
-
-
-            if(!inRange(nextX, nextY) || arr[nextX][nextY] != 0) {
-                dir = (dir + 1) % 4;
+            if(!inRange(nx,ny) || map[nx][ny] != 0) {
+                dirNum = (dirNum + 1) % 4;
                 cnt++;
             }
 
+            x = x + dx[dirNum];
+            y = y + dy[dirNum];
 
-            currX = currX + dx[dir]; currY = currY + dy[dir];
-            arr[currX][currY] = i;
+            map[x][y] = 1;
+            i++;
         }
-        
         System.out.println(cnt);
     }
 }
