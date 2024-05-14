@@ -1,38 +1,38 @@
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
 
-    static int N, K;
-    static boolean[] visited = new boolean[100001];
-    static int[] parent = new int[100001];
+    public static int N, K;
+    public static int[] arr = new int[100001];
+    public static int[] parent = new int[100001];
+
+    public static boolean inRange(int n) {
+       return 0 <= n && n <= 100000;
+    }
 
     public static void bfs(int n) {
-        Deque<Integer> queue = new ArrayDeque<>();
+        Queue<Integer> queue = new LinkedList<>();
         queue.add(n);
-        visited[n] = true;
-        parent[n] = -1;
+        arr[n] = 1;
+        parent[n] = -1; // 처음위치
 
         while (!queue.isEmpty()) {
-            int x = queue.poll();
+            int now = queue.poll();
 
-            if (x == K) {
+            if (now == K) {
                 return;
             }
 
-            int[] nextPositions = {x - 1, x + 1, x * 2};
-            for (int next : nextPositions) {
-                if (next >= 0 && next <= 100000 && !visited[next]) {
+            int[] dx = {now - 1, now + 1, now * 2};
+            for (int next : dx) {
+                if (inRange(next) && arr[next] == 0) {
                     queue.add(next);
-                    visited[next] = true;
-                    parent[next] = x;
+                    arr[next] = arr[now] + 1;
+                    parent[next] = now;
                 }
             }
         }
@@ -41,21 +41,26 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+        StringBuilder sb = new StringBuilder();
         N = Integer.parseInt(st.nextToken());
         K = Integer.parseInt(st.nextToken());
 
         bfs(N);
+        sb.append(arr[K] - 1).append("\n");
 
-        ArrayList<Integer> path = new ArrayList<>();
-        int current = K;
-        while (current != -1) {
-            path.add(current);
-            current = parent[current];
+        Stack<Integer> stack = new Stack<>();
+        stack.push(K);
+        while(K != N) {
+            stack.push(parent[K]);
+            K = parent[K];
         }
 
-        System.out.println(path.size() - 1);
-        for (int i = path.size() - 1; i >= 0; i--) {
-            System.out.print(path.get(i) + " ");
+        while(!stack.isEmpty()) {
+            sb.append(stack.pop()).append(" ");
         }
+        System.out.println(sb);
+
+
+
     }
 }
