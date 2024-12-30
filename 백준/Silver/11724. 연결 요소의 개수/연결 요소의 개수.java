@@ -1,9 +1,10 @@
-
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -11,15 +12,18 @@ public class Main {
 
     public static ArrayList<ArrayList<Integer>> arrayList = new ArrayList<>();
     public static boolean[] visited;
-    //public static boolean check;
-
-
-    public static void dfs(int d) {
+    
+    public static void bfs(int d) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(d);
         visited[d] = true;
-        for(int i = 0; i < arrayList.get(d).size(); i++) {
-            if(!visited[arrayList.get(d).get(i)]) {
-                //check = true;
-                dfs(arrayList.get(d).get(i));
+        while(!queue.isEmpty()) {
+            int tmp = queue.poll();
+            for(int i = 0; i < arrayList.get(tmp).size(); i++) {
+                if(!visited[arrayList.get(tmp).get(i)]) {
+                    visited[arrayList.get(tmp).get(i)] = true;
+                    queue.add(arrayList.get(tmp).get(i));
+                }
             }
         }
     }
@@ -45,7 +49,8 @@ public class Main {
 
         for(int i = 1; i < N + 1; i++) {
             if(!visited[i]) {
-                dfs(i);
+                //dfs(i);
+                bfs(i);
                 result++;
             }
         }
@@ -53,3 +58,4 @@ public class Main {
 
     }
 }
+
