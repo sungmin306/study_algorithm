@@ -4,63 +4,61 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
+import javax.swing.plaf.IconUIResource;
 
 public class Main {
 
-    static int[][] map;
-    static boolean[][] visited;
-    static int n;
-    static int[] dx = {0, 0, 1, -1};
-    static int[] dy = {1, -1, 0, 0};
-    static ArrayList<Integer> counts = new ArrayList<>();
+    public static int N, count;
+    public static int[][] map;
+    public static boolean[][] visited;
+    public static int[] dx = {-1,0,1,0};
+    public static int[] dy = {0,1,0,-1};
 
-//    public static boolean inRange(int x, int y) {
-//        return 0 <= x && x
-//    }
-
-    static int dfs(int x, int y) {
+    public static boolean inRange(int x , int y) {
+        return 0 <= x && x < N && 0 <= y && y < N;
+    }
+    public static void dfs(int x, int y) {
+        count++;
         visited[x][y] = true;
-        int count = 1;
-
-        for (int i = 0; i < 4; i++) {
+        for(int i = 0; i < 4; i++) {
             int nx = x + dx[i];
             int ny = y + dy[i];
-
-            if (nx >= 0 && nx < n && ny >= 0 && ny < n && map[nx][ny] == 1 && !visited[nx][ny]) {
-                count += dfs(nx, ny);
+            if(inRange(nx,ny) && !visited[nx][ny] && map[nx][ny]==1) {
+                dfs(nx,ny);
             }
         }
-
-        return count;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args)throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        n = Integer.parseInt(br.readLine());
-
-        map = new int[n][n];
-        visited = new boolean[n][n];
-
-        for (int i = 0; i < n; i++) {
-            String line = br.readLine();
-            for (int j = 0; j < n; j++) {
-                map[i][j] = line.charAt(j) - '0';
+        StringBuilder sb = new StringBuilder();
+        N = Integer.parseInt(br.readLine());
+        map = new int[N][N];
+        visited = new boolean[N][N];
+        int houses = 0;
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        for(int i = 0; i < N; i++) {
+            String s = br.readLine();
+            for(int j =0; j < N; j++) {
+                map[i][j] = s.charAt(j) - '0';
             }
         }
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (map[i][j] == 1 && !visited[i][j]) {
-                    counts.add(dfs(i, j));
+        for(int i = 0; i < N; i++) {
+            for(int j = 0; j < N; j++) {
+                if(map[i][j] != 0 && !visited[i][j]) {
+                    count = 0;
+                    dfs(i,j);
+                    arrayList.add(count);
+                    houses++;
                 }
             }
         }
-
-        Collections.sort(counts);
-        System.out.println(counts.size());
-        for (int count : counts) {
-            System.out.println(count);
+        sb.append(houses).append("\n");
+        arrayList.sort((a,b) -> Integer.compare(a,b));
+        for(int e : arrayList) {
+            sb.append(e).append("\n");
         }
+        System.out.println(sb);
+
     }
 }
