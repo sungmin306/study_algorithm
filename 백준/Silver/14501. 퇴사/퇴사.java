@@ -5,20 +5,9 @@ import java.util.StringTokenizer;
 
 public class Main {
 
+    public static int N, ans;
     public static int[][] arr;
-    public static int N;
-    public static int ans;
 
-    public static void dfs(int d, int sum) {
-        if(d > N) {
-            ans = Math.max(ans, sum);
-            return;
-        }
-        if(d + arr[d][0] <= N + 1) {
-            dfs(d + arr[d][0],sum + arr[d][1]);
-        }
-        dfs(d + 1, sum);
-    }
 
     public static void main(String[] args)throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -30,8 +19,19 @@ public class Main {
             arr[i][0] = Integer.parseInt(st.nextToken());
             arr[i][1] = Integer.parseInt(st.nextToken());
         }
-        dfs(1,0);
 
-        System.out.println(ans);
+        int[] dp = new int[N + 2];
+
+        for(int i = 1; i <= N; i++) {
+            dp[i + 1] = Math.max(dp[i+1],dp[i]);
+
+            int t = arr[i][0];
+            int p = arr[i][1];
+
+            if(i + t <= N + 1) {
+                dp[i + t] = Math.max(dp[i+t], dp[i] + p);
+            }
+        }
+        System.out.println(dp[N+1]);
     }
 }
