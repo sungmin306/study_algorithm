@@ -28,9 +28,9 @@ public class Main {
 
     public static void main(String[] args)throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        sb = new StringBuilder();
         while(true) {
             StringTokenizer st = new StringTokenizer(br.readLine());
-            sb = new StringBuilder();
             N = Integer.parseInt(st.nextToken());
             arr = new int[N];
             numbers = new int[6];
@@ -41,9 +41,9 @@ public class Main {
                 numbers[0] = arr[i];
                 dfs(i,1);
             }
-            System.out.println(sb);
             sb.append("\n");
 
         }
+        System.out.println(sb);
     }
 }
