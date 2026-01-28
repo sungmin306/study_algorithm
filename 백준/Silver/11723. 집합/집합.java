@@ -4,7 +4,6 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-
     public static void main(String[] args)throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
@@ -14,32 +13,28 @@ public class Main {
         while(M-- > 0) {
             st = new StringTokenizer(br.readLine());
             String str = st.nextToken();
-            int num;
-            switch(str) {
-                case "all":
-                    S = (1 << 21) - 1;
-                    break;
-                case "empty":
-                    S = 0;
-                    break;
-                case "add":
-                    num = Integer.parseInt(st.nextToken());
+            if(str.equals("all")) {
+                S = (1 << 21) -1;
+            } else if(str.equals("empty")) {
+                S = 0;
+            }
+            else {
+                int num = Integer.parseInt(st.nextToken());
+                if(str.equals("add")) {
                     S |= (1 << num);
-                    break;
-                case "remove":
-                    num = Integer.parseInt(st.nextToken());
+                }
+                else if(str.equals("remove")) {
                     S &= ~(1 << num);
-                    break;
-                case "check":
-                    num = Integer.parseInt(st.nextToken());
+                }
+                else if(str.equals("check")) {
                     sb.append((S & (1 << num)) != 0 ? 1 : 0).append("\n");
-                    break;
-                default:
-                    num = Integer.parseInt(st.nextToken());
+                }
+                else if(str.equals("toggle")) {
                     S ^= (1 << num);
-                    break;
+                }
             }
         }
         System.out.println(sb);
+
     }
 }
