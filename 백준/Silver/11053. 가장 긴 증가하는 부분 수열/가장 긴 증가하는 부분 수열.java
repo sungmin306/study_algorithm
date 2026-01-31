@@ -4,7 +4,6 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-
     public static int N;
     public static int[] A;
     public static Integer[] dp;
@@ -12,25 +11,24 @@ public class Main {
     public static int lis(int n) {
         if(dp[n] == null) {
             dp[n] = 1;
-            for(int i = n - 1; i >= 0; i--) {
-                if(A[i] < A[n]) {
+
+            for(int i = n -1; i >= 0; i--) {
+                if(A[i] < A[n])
                     dp[n] = Math.max(dp[n], lis(i) + 1);
-                }
             }
         }
         return dp[n];
     }
 
-    public static void main(String[] args)throws IOException {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
-        StringTokenizer st = new StringTokenizer(br.readLine());
         A = new int[N];
         dp = new Integer[N];
+        StringTokenizer st = new StringTokenizer(br.readLine());
         for(int i = 0; i < N; i++) {
             A[i] = Integer.parseInt(st.nextToken());
         }
-
         for(int i = 0; i < N; i++) {
             lis(i);
         }
