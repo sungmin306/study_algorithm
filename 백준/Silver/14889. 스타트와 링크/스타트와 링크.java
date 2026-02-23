@@ -1,66 +1,62 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class Main {
 
     public static int N;
+    public static boolean[] team;
     public static int[][] S;
-    public static int ans;
-    public static ArrayList<Integer> teamA;
-    public static ArrayList<Integer> teamB;
-    public static boolean[] check;
+    public static int ans = Integer.MAX_VALUE;
 
-    public static void dfs(int p, int d) {
-        if(p == N) return;
+    public static void dfs(int idx, int d) {
         if(d == N/2) {
-            int scoreA = 0;
-            int scoreB = 0;
-            teamB.clear();
-            for(int i = 0; i <N; i++) {
-                if(!check[i]) {
-                    teamB.add(i);
+            int[] teamA = new int[N/2]; // True Team
+            int[] teamB = new int[N/2]; // False Team
+            int ScoreA = 0;
+            int ScoreB = 0;
+            int idxA = 0;
+            int idxB = 0;
+            for(int i = 0; i < N; i++) {
+                if(team[i]) {
+                    teamA[idxA] = i;
+                    idxA++;
+                }
+                else {
+                    teamB[idxB] = i;
+                    idxB++;
                 }
             }
             for(int i = 0; i < N/2; i++) {
-                for(int j = i + 1; j < N/2; j++) {
-                    scoreA += S[teamA.get(i)][teamA.get(j)] + S[teamA.get(j)][teamA.get(i)];
-                    scoreB += S[teamB.get(i)][teamB.get(j)] + S[teamB.get(j)][teamB.get(i)];
+                for(int j = 0; j < N/2; j++) {
+                    if(i == j) continue;
+                    ScoreA += S[teamA[i]][teamA[j]];
+                    ScoreB += S[teamB[i]][teamB[j]];
                 }
             }
-
-            ans = Math.min(ans, Math.abs(scoreA-scoreB));
-            return;
+            ans = Math.min(ans, Math.abs(ScoreA-ScoreB));
         }
-        teamA.add(p);
-        check[p] = true;
-        dfs(p + 1, d + 1);
-        teamA.remove(teamA.size() - 1);
-        check[p] = false;
-        dfs(p + 1, d);
+        if(idx >= N) return;
+
+        // 팀으로 선택한다.
+        team[idx] = true;
+        dfs(idx + 1, d + 1);
+        team[idx] = false;
+        // 팀으로 선택 안한다.
+        dfs(idx + 1, d);
     }
 
     public static void main(String[] args)throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
         S = new int[N][N];
+        team = new boolean[N];
         for(int i = 0; i < N; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
-            for(int j = 0; j < N; j++) {
-                S[i][j] = Integer.parseInt(st.nextToken());
-            }
+            for(int j = 0; j < N; j++) S[i][j] = Integer.parseInt(st.nextToken());
         }
-        ans = Integer.MAX_VALUE;
-        check = new boolean[N];
-        teamA = new ArrayList<>();
-        teamB = new ArrayList<>();
         dfs(0,0);
-
-
         System.out.println(ans);
-
-
     }
 }
