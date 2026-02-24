@@ -5,40 +5,46 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-    public static void main(String[] args)throws IOException {
+    public static int N;
+    public static int[] number;
+
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int N = Integer.parseInt(br.readLine());
-        int[] arr = new int[N];
+        StringBuilder sb = new StringBuilder();
+        N = Integer.parseInt(br.readLine());
+        number = new int[N];
         StringTokenizer st = new StringTokenizer(br.readLine());
-        for(int i = 0; i < N; i++) arr[i] = Integer.parseInt(st.nextToken());
+        for(int i = 0; i < N; i++) number[i] = Integer.parseInt(st.nextToken());
 
-        int i = N - 1;
-        while(i > 0 && arr[i-1] <= arr[i]) i--;
+        int idx = N - 1;
+        while(idx > 0 && number[idx] > number[idx -1]) idx --;
 
-        if(i == 0) {
+        if(idx == 0) {
             System.out.println(-1);
             return;
         }
 
         int j = N - 1;
-        while(arr[i-1] <= arr[j]) j--;
+        while(number[j] > number[idx - 1]) j--;
 
         int tmp;
-        tmp = arr[i-1];
-        arr[i-1] = arr[j];
-        arr[j] = tmp;
+        tmp = number[idx - 1];
+        number[idx -1] = number[j];
+        number[j] = tmp;
 
-        int l = i, r = N -1;
+        int l = idx;
+        int r = N - 1;
+
         while(l < r) {
-            tmp = arr[l];
-            arr[l] = arr[r];
-            arr[r] = tmp;
+            tmp = number[l];
+            number[l] = number[r];
+            number[r] = tmp;
             l++;
             r--;
         }
-        StringBuilder sb = new StringBuilder();
-        for(int k = 0; k < N; k++) {
-            sb.append(arr[k]).append(" ");
+
+        for(int i = 0; i < N; i++) {
+            sb.append(number[i]).append(" ");
         }
         System.out.println(sb);
 
