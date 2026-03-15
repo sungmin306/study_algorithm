@@ -12,6 +12,7 @@ public class Main {
     public static int result = Integer.MAX_VALUE;
 
     public static void dfs(int d, int sum, int s, int e) {
+        if(sum >= result) return;
         if(d == N) {
             if(map[e][s] == 0) return;
             sum = sum + map[e][s];
