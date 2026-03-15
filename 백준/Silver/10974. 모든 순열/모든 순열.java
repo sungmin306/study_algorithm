@@ -7,7 +7,7 @@ public class Main {
     public static int N;
     public static boolean[] visit;
     public static int[] arr;
-    public static StringBuilder sb = new StringBuilder();
+    public static StringBuilder sb;
 
     public static void dfs(int d) {
         if(d == N) {
@@ -18,21 +18,23 @@ public class Main {
             return;
         }
         for(int i = 1; i <= N; i++) {
-            if(!visit[i]) {
-                visit[i] = true;
-                arr[d] = i;
-                dfs(d + 1);
-                visit[i] = false;
-            }
+            if(visit[i]) continue;
+            arr[d] = i;
+            visit[i] = true;
+            dfs(d + 1);
+            visit[i] = false;
         }
+
     }
-    public static void main(String[] args)throws IOException {
+
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
-        visit = new boolean[N + 1];
+        sb = new StringBuilder();
         arr = new int[N];
-
+        visit = new boolean[N + 1];
         dfs(0);
         System.out.println(sb);
+
     }
 }
