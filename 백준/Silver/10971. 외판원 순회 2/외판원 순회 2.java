@@ -1,45 +1,49 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
 
-    public static int N,ans;
-    public static int[][] W;
+    public static int N;
     public static boolean[] visit;
+    public static int[][] map;
+    public static int result = Integer.MAX_VALUE;
 
-    public static void dfs(int depth, int start, int prev, int sum) {
-        if(sum >= ans) return;
-
-        if(depth == N) {
-            if(W[prev][start] == 0) return;
-            ans = Math.min(ans, sum + W[prev][start]);
+    public static void dfs(int d, int sum, int s, int e) {
+        if(d == N) {
+            if(map[e][s] == 0) return;
+            sum = sum + map[e][s];
+            result = Math.min(result, sum);
             return;
         }
 
-        for(int next = 0; next < N; next++) {
-            if(visit[next]) continue;
-            if(W[prev][next] == 0) continue;
-            visit[next] = true;
-            dfs(depth + 1, start, next, sum + W[prev][next]);
-            visit[next] = false;
+        for(int i = 0; i < N; i++) {
+            if(visit[i]) continue;
+            if(map[e][i] == 0) continue;
+            visit[i] = true;
+            dfs(d + 1,sum + map[e][i] ,s, i);
+            visit[i] = false;
         }
     }
+
     public static void main(String[] args)throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
         N = Integer.parseInt(br.readLine());
-        W = new int[N][N];
         visit = new boolean[N];
-        ans = Integer.MAX_VALUE;
+        map = new int[N][N];
         for(int i = 0; i < N; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            for(int j = 0; j < N; j++) {
-                W[i][j] = Integer.parseInt(st.nextToken());
-            }
+            st = new StringTokenizer(br.readLine());
+            for(int j = 0; j < N; j++) map[i][j] = Integer.parseInt(st.nextToken());
         }
-        visit[0] = true;
-        dfs(1,0,0,0);
-        System.out.println(ans);
+
+        for(int i = 0; i < N; i++) {
+            visit[i] = true;
+            dfs(1, 0, i, i);
+            visit[i] = false;
+        }
+        System.out.println(result);
     }
 }
